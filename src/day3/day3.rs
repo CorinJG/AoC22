@@ -14,8 +14,8 @@ fn common_item(s: &str) -> char {
 
 fn priority(c: char) -> u32 {
     match c {
-        c @ 'a'..='z' => (c as u8 - 96) as u32, // a-z is ASCII 97-122
-        c @ 'A'..='Z' => (c as u8 - 38) as u32, // A-Z is ASCII 65-90
+        c @ 'a'..='z' => c as u32 - 96, // a-z is ASCII 97-122
+        c @ 'A'..='Z' => c as u32 - 38, // A-Z is ASCII 65-90
         _ => panic!("invalid input - unexpected character"),
     }
 }
