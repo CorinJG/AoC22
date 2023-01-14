@@ -46,7 +46,7 @@ fn main() {
         .collect::<Vec<_>>()
         .chunks_exact(3)
         .map(|bag_triplet| {
-            // necessary to eliminate 'refutable pattern' error
+            // necessary to eliminate 'refutable pattern' error if try to bind in closure params
             if let [a,b,c] = bag_triplet {
                 determine_badge(a, b, c)
             } else {
@@ -56,5 +56,5 @@ fn main() {
         .map(|badge| priority(badge))
         .sum::<u32>();
 
-        println!("answer2: {}", result2);
+    println!("answer2: {}", result2);
 }
