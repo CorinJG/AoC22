@@ -3,12 +3,16 @@ static INPUT: &'static str = include_str!("input.txt");
 /// Returns char common to first and second half of a str slice of even length
 fn common_item(s: &str) -> char {
     let (left, right) = s.split_at(s.len() / 2);
-    assert_eq!(left.len(), right.len(), "invalid input - odd number of items in a bag");
+    assert_eq!(
+        left.len(),
+        right.len(),
+        "invalid input - odd number of items in a bag"
+    );
     for c in left.chars() {
         if right.contains(c) {
-            return c
+            return c;
         }
-    } 
+    }
     panic!("invalid input - no item present in both compartments");
 }
 
@@ -24,7 +28,7 @@ fn priority(c: char) -> u32 {
 fn determine_badge(a: &str, b: &str, c: &str) -> char {
     for i in a.chars() {
         if b.contains(i) && c.contains(i) {
-            return i
+            return i;
         }
     }
     panic!("invalid input - no item common to all 3 bags");
@@ -34,8 +38,8 @@ fn main() {
     let result1 = INPUT
         .trim()
         .lines()
-        .map(|items| common_item(items))
-        .map(|common_item| priority(common_item))
+        .map(common_item)
+        .map(priority)
         .sum::<u32>();
 
     println!("answer1: {}", result1);
@@ -47,13 +51,13 @@ fn main() {
         .chunks_exact(3)
         .map(|bag_triplet| {
             // necessary to eliminate 'refutable pattern' error if try to bind in closure params
-            if let [a,b,c] = bag_triplet {
+            if let [a, b, c] = bag_triplet {
                 determine_badge(a, b, c)
             } else {
                 panic!("invalid inpuit - number of bags not a multiple of 3")
             }
         })
-        .map(|badge| priority(badge))
+        .map(priority)
         .sum::<u32>();
 
     println!("answer2: {}", result2);

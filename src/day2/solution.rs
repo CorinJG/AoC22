@@ -34,7 +34,7 @@ fn main() {
     let score1 = INPUT
         .trim()
         .lines()
-        .map(|round| score_map1(round))
+        .map(score_map1)
         .sum::<u32>();
 
     println!("part 1 score: {}", score1);
@@ -42,7 +42,7 @@ fn main() {
     let score2 = INPUT
         .trim()
         .lines()
-        .map(|round| score_map2(round))
+        .map(score_map2)
         .sum::<u32>();
 
     println!("part 2 score: {}", score2);
