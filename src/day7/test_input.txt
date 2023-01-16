@@ -1,0 +1,9 @@
+$ cd /
+$ ls
+dir blgtdv
+dir hzg
+10 abc
+$ cd hzg
+$ ls
+20 bnm
+30 cllbb
