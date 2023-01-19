@@ -50,12 +50,13 @@ fn dir_size(lines: &mut Peekable<Lines<'_>>, sum: &mut u64) -> u64 {
 /// Sum the lines of the form '123 xyz' to return the total size of the files on the fs
 fn disk_space_used(lines: &mut Peekable<Lines<'_>>) -> u64 {
     lines
-        .filter_map(|line| line
-            .split(' ')
-            .next()
-            .unwrap_or_else(|| panic!("unexpected input line: {line}"))
-            .parse::<u64>()
-            .ok())
+        .filter_map(|line| {
+            line.split(' ')
+                .next()
+                .unwrap_or_else(|| panic!("unexpected input line: {line}"))
+                .parse::<u64>()
+                .ok()
+        })
         .sum()
 }
 
@@ -96,7 +97,7 @@ fn dir_size2(lines: &mut Peekable<Lines<'_>>, space_required: u64, current_min: 
         };
     }
     if size >= space_required && size < *current_min {
-       *current_min = size; 
+        *current_min = size;
     }
     size
 }
@@ -133,7 +134,7 @@ mod tests {
         dir_size(&mut lines, &mut sum);
         assert_eq!(sum, 110);
     }
-    
+
     #[test]
     fn test_disk_space_used() {
         let mut lines = TEST_INPUT.trim().lines().peekable();

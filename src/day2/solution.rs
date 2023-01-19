@@ -31,19 +31,11 @@ fn score_map2(s: &str) -> u32 {
 }
 
 fn main() {
-    let score1 = INPUT
-        .trim()
-        .lines()
-        .map(score_map1)
-        .sum::<u32>();
+    let score1 = INPUT.trim().lines().map(score_map1).sum::<u32>();
 
     println!("part 1 score: {}", score1);
 
-    let score2 = INPUT
-        .trim()
-        .lines()
-        .map(score_map2)
-        .sum::<u32>();
+    let score2 = INPUT.trim().lines().map(score_map2).sum::<u32>();
 
     println!("part 2 score: {}", score2);
 }
