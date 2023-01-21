@@ -3,7 +3,7 @@ static INPUT: &'static str = include_str!("input.txt");
 /// Given a row of trees, iterate once to return a mask representing which trees are visible
 fn visible_mask<'a, I>(iter: I) -> Vec<bool>
 where
-    I: Iterator<Item = &'a char> + DoubleEndedIterator + 'a,
+    I: Iterator<Item = &'a char> + 'a,
 {
     let mut tallest_so_far = '/'; // ASCII '/' precedes all numerical digits
     iter.map(move |tree| {
@@ -15,6 +15,24 @@ where
         }
     })
     .collect()
+}
+
+fn scenic_score<'a, I>(iter: I) -> Vec<usize>
+where
+    I: Iterator<Item = &'a char>,
+{
+    let mut latest_index_of_heights = vec![0; 10];
+    iter.enumerate()
+        .map(move |(i, tree)| {
+            let height = tree.to_digit(10).unwrap() as usize;
+            let score = (height..=9)
+                .map(|h| i - latest_index_of_heights[h])
+                .min()
+                .unwrap();
+            latest_index_of_heights[height] = i;
+            score
+        })
+        .collect()
 }
 
 fn transpose<T>(v: Vec<Vec<T>>) -> Vec<Vec<T>> {
@@ -37,6 +55,7 @@ fn main() {
         .lines()
         .map(|line| line.chars().collect::<Vec<_>>())
         .collect::<Vec<Vec<_>>>();
+    let scenic_grid = grid.clone();
 
     let lr_mask: Vec<Vec<bool>> = grid.iter().map(|row| visible_mask(row.iter())).collect();
 
@@ -63,7 +82,7 @@ fn main() {
 
     let side_len = grid_transpose.len();
 
-    let result = (0..side_len)
+    let part1 = (0..side_len)
         .map(|i| {
             (0..side_len)
                 .filter(|&j| lr_mask[i][j] || rl_mask[i][j] || tb_mask[i][j] || bt_mask[i][j])
@@ -71,7 +90,47 @@ fn main() {
         })
         .sum::<usize>();
 
-    println!("{result}");
+    println!("part 1: {part1}");
+
+    let lr_scenic_score: Vec<Vec<usize>> = scenic_grid
+        .iter()
+        .map(|row| scenic_score(row.iter()))
+        .collect();
+
+    let rl_scenic_score: Vec<Vec<usize>> = scenic_grid
+        .iter()
+        .map(|row| scenic_score(row.iter().rev()).into_iter().rev().collect())
+        .collect();
+
+    let tb_scenic_score: Vec<Vec<usize>> = transpose(
+        grid_transpose
+            .iter()
+            .map(|row| scenic_score(row.iter()))
+            .collect(),
+    );
+
+    let bt_scenic_score: Vec<Vec<usize>> = transpose(
+        grid_transpose
+            .iter()
+            .map(|row| scenic_score(row.iter().rev()).into_iter().rev().collect())
+            .collect(),
+    );
+
+    let part2 = (0..side_len)
+        .map(|i| {
+            (0..side_len)
+                .map(|j| {
+                    lr_scenic_score[i][j]
+                        * rl_scenic_score[i][j]
+                        * tb_scenic_score[i][j]
+                        * bt_scenic_score[i][j]
+                })
+                .max()
+                .unwrap()
+        })
+        .max()
+        .unwrap();
+    println!("part 2: {}", part2);
 }
 
 #[cfg(test)]
@@ -158,5 +217,14 @@ mod tests {
                 vec!(true, true, true)
             )
         );
+    }
+
+    #[test]
+    fn test_scenic_score() {
+        let test_row = [
+            '1', '5', '7', '3', '2', '4', '4', '7', '1', '0', '3', '3', '4', '2',
+        ];
+        let target = vec![0, 1, 2, 1, 1, 3, 1, 5, 1, 1, 3, 1, 5, 1];
+        assert_eq!(scenic_score(test_row.iter()), target);
     }
 }
