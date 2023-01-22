@@ -1,4 +1,4 @@
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 fn score_map1(s: &str) -> u32 {
     match s {

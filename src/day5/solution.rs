@@ -1,4 +1,4 @@
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 fn move_crates_9000(stacks: &mut [Vec<char>], num: u32, src: usize, dest: usize) {
     for _ in 0..num {

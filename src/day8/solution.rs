@@ -1,4 +1,4 @@
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 /// Given a row of trees, iterate once to return a mask representing which trees are visible
 fn visible_mask<'a, I>(iter: I) -> Vec<bool>

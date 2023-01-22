@@ -1,4 +1,4 @@
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 /// Returns char common to first and second half of a str slice of even length
 fn common_item(s: &str) -> char {

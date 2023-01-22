@@ -1,4 +1,4 @@
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 fn main() {
     let mut triplet_sum: Vec<u32> = INPUT

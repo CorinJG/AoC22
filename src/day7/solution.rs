@@ -1,7 +1,7 @@
 use std::iter::Peekable;
 use std::str::Lines;
 
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 /// To find the sum of the sizes of all files in this dir and nested subdirs,
 /// iterate over the lines in the file, updating the sum for dirs <= 100_000.
@@ -124,7 +124,7 @@ fn main() {
 mod tests {
     use super::*;
 
-    static TEST_INPUT: &'static str = include_str!("test_input.txt");
+    static TEST_INPUT: &str = include_str!("test_input.txt");
 
     #[test]
     fn test_dir_size() {

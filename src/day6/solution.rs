@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::hash::Hash;
 
-static INPUT: &'static str = include_str!("input.txt");
+static INPUT: &str = include_str!("input.txt");
 
 /// Returns true if an iterator yields no duplicate items, false otherwise.
 fn unique_elements<I>(iter: I) -> bool
